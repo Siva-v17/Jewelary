@@ -369,9 +369,11 @@ tr.search-hit{outline:1px solid var(--gold); background:rgba(198,161,91,0.08);}
 
 .panel canvas{max-width:100% !important; width:100% !important;}
 
+.table-scroll{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+
 table{width:100%; border-collapse:collapse;}
-th{text-align:left; font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ivory-dim); padding:10px 12px; border-bottom:1px solid var(--line);}
-td{padding:16px 12px; border-bottom:1px solid var(--line); font-size:14px; color:var(--ivory);}
+th{text-align:left; font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ivory-dim); padding:10px 12px; border-bottom:1px solid var(--line); white-space:nowrap;}
+td{padding:16px 12px; border-bottom:1px solid var(--line); font-size:14px; color:var(--ivory); white-space:nowrap;}
 tbody tr{transition:background .25s var(--ease);}
 tbody tr:hover{background:rgba(198,161,91,0.06);}
 tr:last-child td{border-bottom:none;}
@@ -430,6 +432,8 @@ tr:last-child td{border-bottom:none;}
   .wishlist-grid{grid-template-columns:1fr;}
   .dash-topbar-title h2{font-size:22px;}
   .panel{padding:22px 18px;}
+  table{min-width:560px;}
+  th, td{padding:12px 10px; font-size:13px;}
 }
 
 /* ================= MEDIA QUERIES ================= */
@@ -563,6 +567,7 @@ tr:last-child td{border-bottom:none;}
 
         <div class="panel">
           <div class="panel-head"><h3>Recent Orders</h3><a href="#" onclick="switchTab('orders');return false;" class="p-cat" style="color:var(--gold);">View All</a></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Order</th><th>Customer</th><th>Item</th><th>Amount</th><th>Status</th></tr></thead>
             <tbody>
@@ -572,6 +577,7 @@ tr:last-child td{border-bottom:none;}
               <tr><td>#STK-2283</td><td>Rahul N.</td><td>Palar Eternity Band</td><td>&#8377;1,12,000</td><td><span class="status-chip chip-done">Delivered</span></td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -579,6 +585,7 @@ tr:last-child td{border-bottom:none;}
       <div class="dash-tab-panel" id="tab-orders">
         <div class="panel">
           <div class="panel-head"><h3>All Orders</h3><span class="p-cat">186 total</span></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Order</th><th>Customer</th><th>Item</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
             <tbody>
@@ -590,6 +597,7 @@ tr:last-child td{border-bottom:none;}
               <tr><td>#STK-2281</td><td>Suresh K.</td><td>Salem Ruby Stud</td><td>Jul 29, 2026</td><td>&#8377;58,900</td><td><span class="status-chip chip-done">Delivered</span></td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -597,6 +605,7 @@ tr:last-child td{border-bottom:none;}
       <div class="dash-tab-panel" id="tab-inventory">
         <div class="panel">
           <div class="panel-head"><h3>Inventory Status</h3><span class="p-cat">7 low-stock alerts</span></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>SKU</th><th>Piece</th><th>Category</th><th>In Stock</th><th>Status</th></tr></thead>
             <tbody>
@@ -607,6 +616,7 @@ tr:last-child td{border-bottom:none;}
               <tr><td>VAI-001</td><td>Vaigai Bridal Set</td><td>Bridal</td><td>4</td><td><span class="status-chip chip-progress">Made to Order</span></td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -614,6 +624,7 @@ tr:last-child td{border-bottom:none;}
       <div class="dash-tab-panel" id="tab-customers">
         <div class="panel">
           <div class="panel-head"><h3>Customers</h3><span class="p-cat">1,240 total</span></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Name</th><th>Email</th><th>Orders</th><th>Lifetime Value</th></tr></thead>
             <tbody>
@@ -623,6 +634,7 @@ tr:last-child td{border-bottom:none;}
               <tr><td>Rahul N.</td><td>rahul.n@example.com</td><td>1</td><td>&#8377;1,12,000</td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
