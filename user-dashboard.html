@@ -361,13 +361,19 @@ footer{background:var(--obsidian-2); border-top:1px solid var(--line); padding:1
 .panel-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:26px;}
 .panel-head h3{font-size:20px;}
 
+/* table wrapper enables horizontal scroll instead of squished columns on small screens */
+.table-scroll{width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+.table-scroll::-webkit-scrollbar{height:5px;}
+.table-scroll::-webkit-scrollbar-track{background:transparent;}
+.table-scroll::-webkit-scrollbar-thumb{background:var(--gold); border-radius:10px;}
+
 table{width:100%; border-collapse:collapse;}
-th{text-align:left; font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ivory-dim); padding:10px 12px; border-bottom:1px solid var(--line);}
-td{padding:16px 12px; border-bottom:1px solid var(--line); font-size:14px; color:var(--ivory);}
+th{text-align:left; font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--ivory-dim); padding:10px 12px; border-bottom:1px solid var(--line); white-space:nowrap;}
+td{padding:16px 12px; border-bottom:1px solid var(--line); font-size:14px; color:var(--ivory); white-space:nowrap;}
 tr:last-child td{border-bottom:none;}
 tbody tr{transition:background .3s var(--ease);}
 tbody tr:hover{background:rgba(198,161,91,0.06);}
-.status-chip{font-family:var(--font-mono); font-size:10px; padding:5px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:.06em;}
+.status-chip{font-family:var(--font-mono); font-size:10px; padding:5px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:.06em; display:inline-block;}
 .chip-done{background:rgba(124,200,154,0.14); color:#7cc89a;}
 .chip-progress{background:rgba(198,161,91,0.16); color:var(--gold-bright);}
 .chip-pending{background:rgba(211,128,128,0.14); color:#d38080;}
@@ -419,11 +425,18 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
   .dash-two{grid-template-columns:1fr;}
   .wishlist-grid{grid-template-columns:repeat(2,1fr);}
   .dash-search{flex-basis:100%; min-width:0;}
+  .panel{padding:24px 22px;}
+  table{min-width:560px;}
 }
 @media (max-width:560px){
   .kpi-grid{grid-template-columns:1fr;}
   .wishlist-grid{grid-template-columns:1fr;}
   .dash-topbar-title h2{font-size:22px;}
+  .panel{padding:20px 16px;}
+  .panel-head{gap:12px;}
+  .panel-head h3{font-size:17px;}
+  th, td{padding:12px 10px; font-size:12.5px;}
+  table{min-width:480px;}
 }
 
 /* ================= MEDIA QUERIES ================= */
@@ -536,7 +549,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
         </div>
         <div class="dash-search">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="text" placeholder="Search your orders...">
+          <input type="text" id="dashSearchInput" placeholder="Search your orders...">
         </div>
       </div>
 
@@ -569,6 +582,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
 
         <div class="panel">
           <div class="panel-head"><h3>Order History</h3><a href="#" onclick="switchTab('orders');return false;" class="p-cat" style="color:var(--gold);">View All</a></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Order</th><th>Item</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
             <tbody>
@@ -578,6 +592,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
               <tr><td>#STK-1802</td><td>Vellore Layer Chain</td><td>Jun 4, 2025</td><td>&#8377;1,42,000</td><td><span class="status-chip chip-done">Delivered</span></td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -585,6 +600,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
       <div class="dash-tab-panel" id="tab-orders">
         <div class="panel">
           <div class="panel-head"><h3>All Orders</h3></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Order</th><th>Item</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead>
             <tbody>
@@ -594,6 +610,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
               <tr><td>#STK-1802</td><td>Vellore Layer Chain</td><td>Jun 4, 2025</td><td>&#8377;1,42,000</td><td><span class="status-chip chip-done">Delivered</span></td></tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
@@ -613,6 +630,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
       <div class="dash-tab-panel" id="tab-bespoke">
         <div class="panel">
           <div class="panel-head"><h3>Bespoke Requests</h3></div>
+          <div class="table-scroll">
           <table>
             <thead><tr><th>Request</th><th>Submitted</th><th>Stage</th></tr></thead>
             <tbody>
@@ -620,6 +638,7 @@ tbody tr:hover{background:rgba(198,161,91,0.06);}
               <tr><td>Resize + re-polish, wedding band</td><td>Jun 30, 2026</td><td><span class="status-chip chip-done">Completed</span></td></tr>
             </tbody>
           </table>
+          </div>
           <a href="contact.html" class="btn btn-solid" style="margin-top:26px;">Start a New Request</a>
         </div>
       </div>
@@ -742,6 +761,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const signOutLink = document.getElementById('signOutLink');
   signOutLink && signOutLink.addEventListener('click', () => {
     localStorage.removeItem('stackly_user');
+  });
+
+  /* ---------------- SEARCH -> error.html ---------------- */
+  const dashSearchInput = document.getElementById('dashSearchInput');
+  dashSearchInput && dashSearchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      window.location.href = 'error.html';
+    }
   });
 
   /* ---------------- PRELOADER ---------------- */
