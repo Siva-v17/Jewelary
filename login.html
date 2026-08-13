@@ -114,7 +114,13 @@ p{color:var(--ivory-dim); font-weight:300;}
 .lv-stats div{display:flex;flex-direction:column;gap:4px;}
 .lv-stats strong{font-family:var(--font-display);font-size:clamp(28px,2.6vw,36px);font-weight:500;color:var(--gold-bright);line-height:1;}
 .lv-stats span{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ivory-dim);}
-.login-form-side{display:flex;align-items:center;justify-content:center;padding:80px 60px;height:100vh;overflow-y:auto;}
+
+/* FIX: was height:100vh + overflow-y:auto, which trapped the sign-in box in its
+   own internal scroll region separate from the page (so it rendered mid-scroll,
+   with the logo/tabs cut off above the fold). min-height lets it grow with its
+   content and scroll naturally with the rest of the page. */
+.login-form-side{display:flex;align-items:center;justify-content:center;padding:80px 60px;min-height:100vh;}
+
 .login-box{width:100%;max-width:400px;}
 .role-toggle{display:flex;border:1px solid var(--line);margin-bottom:44px;position:relative;}
 .role-toggle button{flex:1;padding:14px 0;font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ivory-dim);position:relative;z-index:2;transition:color .35s;}
@@ -169,7 +175,7 @@ p{color:var(--ivory-dim); font-weight:300;}
 @media (max-width:900px){
   .login-wrap{grid-template-columns:1fr; min-height:100vh;}
   .login-visual{display:none;}
-  .login-form-side{padding:60px 28px;height:auto;overflow-y:visible;}
+  .login-form-side{padding:60px 28px;min-height:auto;}
 }
 
 .info-modal-overlay{
