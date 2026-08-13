@@ -263,11 +263,11 @@ section{padding:130px 0; position:relative;}
   position:absolute; left:0; top:12px; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
   color:var(--ivory-dim); pointer-events:none; transition:all .3s var(--ease);
 }
-.form-field input:focus, .form-field textarea:focus{border-color:var(--gold);}
 .form-field input:focus + label, .form-field input:not(:placeholder-shown) + label,
 .form-field textarea:focus + label, .form-field textarea:not(:placeholder-shown) + label{
   top:-14px; font-size:10px; color:var(--gold);
 }
+.form-field input:focus, .form-field textarea:focus{border-color:var(--gold);}
 .form-field textarea{resize:vertical; min-height:100px;}
 
 /* footer */
@@ -417,16 +417,38 @@ tr:last-child td{border-bottom:none;}
 .dash-sidebar-backdrop.open{opacity:1; pointer-events:auto;}
 
 @media (max-width:1000px){
-  .dash-sidebar{width:260px; max-width:80vw; transform:translateX(-100%); transition:transform .4s var(--ease); z-index:600;}
+  .dash-sidebar{
+    width:100vw;
+    max-width:100vw;
+    transform:translateX(-100%);
+    transition:transform .4s var(--ease);
+    z-index:600;
+    padding:32px 28px;
+    display:flex;
+    flex-direction:column;
+  }
   .dash-sidebar.open{transform:translateX(0);}
-  .dash-sidebar-close{display:flex;}
+  .dash-sidebar-close{display:flex; width:38px; height:38px; top:24px; right:24px;}
+  .dash-sidebar-close svg{width:20px;height:20px;}
   .dash-menu-btn{display:flex;}
   .dash-main{padding:30px 22px 70px; margin-left:0;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
   .dash-two{grid-template-columns:1fr;}
   .wishlist-grid{grid-template-columns:repeat(2,1fr);}
   .dash-search{flex-basis:100%; min-width:0;}
+
+  /* enlarge + spread the marked sidebar content so it fills the full-screen panel */
+  .dash-sidebar .logo img{height:72px;}
+  .dash-sidebar .dash-profile{margin-top:8px; gap:16px;}
+  .dash-profile .name{font-size:20px; font-family:var(--font-display); font-weight:500;}
+  .dash-profile .email{font-size:13px; margin-top:4px;}
+  .dash-profile .role{font-size:11px; margin-top:4px;}
+  .dash-nav{flex:1; justify-content:center; gap:6px; margin-top:10px;}
+  .dash-nav a{font-size:19px; padding:20px 18px; gap:20px;}
+  .dash-nav a svg{width:24px; height:24px;}
+  .dash-nav a[href="login.html"]{font-size:14px !important; margin-top:32px !important; padding:20px 18px;}
 }
+
 @media (max-width:560px){
   .kpi-grid{grid-template-columns:1fr;}
   .wishlist-grid{grid-template-columns:1fr;}
@@ -700,58 +722,24 @@ tr:last-child td{border-bottom:none;}
       document.documentElement.style.setProperty('--my', e.clientY + 'px');
     });
 
-    // ---------------- LIVE DASHBOARD SEARCH ----------------
-    const dashSearchForm = document.getElementById('dashSearchForm');
-    const dashSearchInput = document.getElementById('dashSearchInput');
-    const dashSearchEmpty = document.getElementById('dashSearchEmpty');
+    // ---------------- SEARCH -> error.html ----------------
+  const dashSearchForm = document.getElementById('dashSearchForm');
+  const dashSearchInput = document.getElementById('dashSearchInput');
 
-    function clearSearchHighlights(){
-      document.querySelectorAll('tr.search-hit').forEach(r => r.classList.remove('search-hit'));
-    }
-
-    function runDashSearch(){
-      const query = (dashSearchInput.value || '').trim().toLowerCase();
-      clearSearchHighlights();
-      if (dashSearchEmpty) dashSearchEmpty.classList.remove('show');
-      if (!query) return;
-
-      let firstMatchTab = null;
-      let matchCount = 0;
-
-      document.querySelectorAll('.dash-tab-panel').forEach((panel) => {
-        const tabName = panel.id.replace('tab-', '');
-        panel.querySelectorAll('tbody tr').forEach((row) => {
-          if (row.textContent.toLowerCase().includes(query)) {
-            row.classList.add('search-hit');
-            matchCount++;
-            if (!firstMatchTab) firstMatchTab = tabName;
-          }
-        });
-      });
-
-      if (matchCount === 0) {
-        if (dashSearchEmpty) dashSearchEmpty.classList.add('show');
-        return;
-      }
-
-      if (firstMatchTab) switchTab(firstMatchTab);
-    }
-
-    if (dashSearchForm) {
-      dashSearchForm.addEventListener('submit', (e) => {
+  if (dashSearchForm) {
+    dashSearchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if ((dashSearchInput.value || '').trim()) window.location.href = 'error.html';
+    });
+  }
+  if (dashSearchInput) {
+    dashSearchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
         e.preventDefault();
-        runDashSearch();
-      });
-    }
-    if (dashSearchInput) {
-      dashSearchInput.addEventListener('input', () => runDashSearch());
-      dashSearchInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          runDashSearch();
-        }
-      });
-    }
+        if ((dashSearchInput.value || '').trim()) window.location.href = 'error.html';
+      }
+    });
+  }
 
     const dashCharts = {};
 
